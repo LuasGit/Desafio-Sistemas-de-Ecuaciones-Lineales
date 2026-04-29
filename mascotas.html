@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Desafío: Modelado del Bienestar de una Mascota</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.plot.ly/plotly-2.27.0.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', -apple-system, sans-serif; background-color: #f8fafc; }
+        .glass-panel { background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); border: 1px solid rgba(226, 232, 240, 0.8); box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05); }
+        input[type="number"] { width: 100%; padding: 0.5rem; border: 1px solid #cbd5e1; border-radius: 0.375rem; font-family: monospace; text-align: right; }
+        input[type="number"]:focus { outline: none; border-color: #3b82f6; ring: 2px #3b82f6; }
+    </style>
+</head>
+<body class="text-slate-800 pb-20">
+
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8">
+    <!-- Header -->
+    <header class="mb-10 text-center">
+        <h1 class="text-4xl font-extrabold text-slate-900 mb-3"><i class="fa-solid fa-dog text-blue-600 mr-3"></i>Modelado Matemático: Ecosistema de Crecimiento de una Mascota</h1>
+        <p class="text-lg text-slate-600 max-w-3xl mx-auto">Resolución de sistemas lineales aplicados al equilibrio de dieta, ejercicio y salud mental de un animal de compañía, utilizando métodos iterativos avanzados.</p>
+    </header>
+
+    <!-- Contexto -->
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+        <div class="glass-panel p-6 rounded-2xl">
+            <h2 class="text-2xl font-bold mb-4 border-b pb-2"><i class="fa-solid fa-book-medical mr-2 text-indigo-500"></i>1. Contexto Biológico y Variables</h2>
+            <p class="mb-3 text-sm leading-relaxed">Para que un cachorro o mascota en recuperación crezca de forma óptima, su organismo requiere un balance perfecto (homeostasis). Cada acción que tomamos (alimentarlo, pasearlo, jugar) afecta simultáneamente su energía, su masa muscular y su nivel de estrés. Hemos modelado este delicado balance como un sistema de ecuaciones (Matriz A por Vector X = Vector B).</p>
+            
+            <h3 class="font-semibold mt-4 mb-2 text-slate-700">Las Variables (Nuestros Hábitos Diarios - Vector X):</h3>
+            <ul class="list-disc pl-5 text-sm space-y-1 mb-4 text-slate-600">
+                <li><strong>X1: Ingesta Nutricional Base</strong> (Gramos de proteína de alta calidad al día).</li>
+                <li><strong>X2: Actividad Física</strong> (Minutos de ejercicio cardiovascular o paseos al día).</li>
+                <li><strong>X3: Estimulación Cognitiva</strong> (Minutos de juego interactivo o entrenamiento mental al día).</li>
+            </ul>
+            
+            <h3 class="font-semibold text-slate-700">Los Objetivos Fisiológicos (Las Metas - Vector B):</h3>
+            <ul class="list-disc pl-5 text-sm space-y-1 text-slate-600">
+                <li><strong>B1: Gasto Energético Metabólico</strong> (Calorías exactas a cubrir en el día).</li>
+                <li><strong>B2: Índice de Desarrollo Muscular</strong> (Tono físico y regeneración celular deseada).</li>
+                <li><strong>B3: Estabilidad Emocional</strong> (Niveles objetivo para la reducción de cortisol/estrés).</li>
+            </ul>
+        </div>
+
+        <div class="glass-panel p-6 rounded-2xl bg-indigo-50 border-indigo-100">
+            <h2 class="text-2xl font-bold mb-4 border-b border-indigo-200 pb-2"><i class="fa-solid fa-chalkboard-user mr-2 text-indigo-500"></i>2. ¿Cómo funciona la simulación?</h2>
+            <div class="space-y-3 text-sm text-slate-700">
+                <p><strong>¿Qué es la Matriz?</strong> Los números en las casillas blancas representan la "tasa de impacto". Por ejemplo, cuántas calorías aporta 1 gramo de proteína, o cuánto estrés reduce 1 minuto de paseo. Altera estos números para simular diferentes tipos de alimento o razas de perros.</p>
+                <p><strong>¿Qué pasa si meto valores manuales?</strong> El sistema intentará encontrar la combinación exacta de Proteína (X1), Ejercicio (X2) y Juego (X3) para cumplir las metas (B1, B2, B3). Si los números que ingresas son contradictorios (ej. dos actividades hacen exactamente lo mismo), el sistema se vuelve "Mal Condicionado" y la matemática falla o se vuelve muy lenta.</p>
+                <p><strong>¿Qué es la gráfica 3D?</strong> Cada ecuación (Calorías, Músculo, Estrés) se dibuja como un plano de color en el espacio. El punto negro exacto donde los tres planos chocan es la "Receta Perfecta" (la solución a nuestro sistema) para la salud de la mascota.</p>
+                <p><strong>El papel de los Algoritmos:</strong> El método de LU hace el cálculo directo (la solución teórica ideal). Jacobi y Gauss-Seidel son métodos de "adivinanza y ajuste"; a veces se rinden si el problema es muy complejo. El <strong>Gradiente Conjugado Precondicionado</strong> es el método avanzado (del artículo de Porfirio Suñagua) que logra resolver hasta los casos más estresantes de forma eficiente guiándose por la "curvatura" del problema.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Escenarios Rápidos -->
+    <div class="mb-6">
+        <h2 class="text-xl font-bold mb-3"><i class="fa-solid fa-vial-circle-check mr-2 text-blue-500"></i>3. Cargar Escenarios de Prueba</h2>
+        <div class="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-4">
+            <button onclick="loadScenario('ideal')" class="flex-1 bg-green-50 hover:bg-green-100 border-2 border-green-200 text-green-800 py-3 rounded-xl transition font-bold text-sm shadow-sm">
+                <i class="fa-solid fa-leaf mr-1"></i> Escenario Ideal<br><span class="text-xs font-normal text-green-600">Mascota sana, variables claras. Rápida solución.</span>
+            </button>
+            <button onclick="loadScenario('stress')" class="flex-1 bg-yellow-50 hover:bg-yellow-100 border-2 border-yellow-200 text-yellow-800 py-3 rounded-xl transition font-bold text-sm shadow-sm">
+                <i class="fa-solid fa-bolt mr-1"></i> Bajo Estrés / Crecimiento<br><span class="text-xs font-normal text-yellow-600">Alta demanda, coeficientes altos. Requiere esfuerzo.</span>
+            </button>
+            <button onclick="loadScenario('ill')" class="flex-1 bg-red-50 hover:bg-red-100 border-2 border-red-200 text-red-800 py-3 rounded-xl transition font-bold text-sm shadow-sm">
+                <i class="fa-solid fa-triangle-exclamation mr-1"></i> Mal Condicionado<br><span class="text-xs font-normal text-red-600">Hábitos casi idénticos. Fallo de métodos clásicos.</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- Interactive Workspace -->
+    <div class="glass-panel p-6 rounded-2xl shadow-lg border border-slate-200">
+        
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+            
+            <!-- Controls and Matrix -->
+            <div class="lg:col-span-5 space-y-6">
+                <!-- Matrix Inputs -->
+                <div class="bg-slate-50 p-4 rounded-xl border border-slate-200">
+                    <div class="flex justify-between items-center mb-4">
+                        <h3 class="font-bold text-slate-700">Matriz de Impacto (A) por Variables (X) = Metas (B)</h3>
+                    </div>
+                    
+                    <div class="flex items-center space-x-4">
+                        <!-- Matrix A -->
+                        <div class="grid grid-cols-3 gap-2 flex-grow" id="matrix-a">
+                            <!-- Row 1 -->
+                            <input type="number" id="a00" value="5" step="any" title="Impacto de X1 en Meta 1">
+                            <input type="number" id="a01" value="1" step="any" title="Impacto de X2 en Meta 1">
+                            <input type="number" id="a02" value="1" step="any" title="Impacto de X3 en Meta 1">
+                            <!-- Row 2 -->
+                            <input type="number" id="a10" value="1" step="any" title="Impacto de X1 en Meta 2">
+                            <input type="number" id="a11" value="4" step="any" title="Impacto de X2 en Meta 2">
+                            <input type="number" id="a12" value="1" step="any" title="Impacto de X3 en Meta 2">
+                            <!-- Row 3 -->
+                            <input type="number" id="a20" value="1" step="any" title="Impacto de X1 en Meta 3">
+                            <input type="number" id="a21" value="1" step="any" title="Impacto de X2 en Meta 3">
+                            <input type="number" id="a22" value="6" step="any" title="Impacto de X3 en Meta 3">
+                        </div>
+                        
+                        <div class="text-2xl font-bold text-slate-400">
+                            X =
+                        </div>
+
+                        <!-- Vector B -->
+                        <div class="grid grid-cols-1 gap-2 w-24" id="vector-b">
+                            <input type="number" id="b0" value="150" step="any" class="bg-blue-50 border-blue-200" title="Meta 1: Calorías">
+                            <input type="number" id="b1" value="120" step="any" class="bg-blue-50 border-blue-200" title="Meta 2: Músculo">
+                            <input type="number" id="b2" value="200" step="any" class="bg-blue-50 border-blue-200" title="Meta 3: Estrés">
+                        </div>
+                    </div>
+                    <p class="text-xs text-slate-500 mt-3">* Modifica los valores libremente. Para usar el Gradiente Conjugado, asegúrate de que la matriz tenga diagonales fuertes (Simétrica y Definida Positiva).</p>
+                </div>
+
+                <button onclick="runSimulation()" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-4 rounded-xl shadow-md transition-all flex justify-center items-center text-lg">
+                    <i class="fa-solid fa-play mr-2"></i> Procesar y Graficar Solución
+                </button>
+
+                <!-- Solution Output -->
+                <div class="bg-emerald-50 p-4 rounded-xl border border-emerald-200 hidden" id="solution-box">
+                    <h3 class="font-bold text-emerald-800 mb-2">Receta Óptima para la Mascota (Solución Exacta):</h3>
+                    <ul class="text-emerald-700 text-sm space-y-2">
+                        <li class="flex justify-between border-b border-emerald-200 pb-1"><span>X1 (Proteína Diaria):</span> <span class="font-mono font-bold"><span id="sol-x1"></span> gramos</span></li>
+                        <li class="flex justify-between border-b border-emerald-200 pb-1"><span>X2 (Actividad Física):</span> <span class="font-mono font-bold"><span id="sol-x2"></span> minutos</span></li>
+                        <li class="flex justify-between pb-1"><span>X3 (Estimulación Mental):</span> <span class="font-mono font-bold"><span id="sol-x3"></span> minutos</span></li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Visualization -->
+            <div class="lg:col-span-7 bg-white rounded-xl border border-slate-200 overflow-hidden relative" style="min-height: 400px;">
+                <div class="absolute top-2 left-2 z-10 bg-white/80 px-3 py-1 text-xs font-bold rounded shadow-sm border text-slate-700">Intersección de las 3 Metas (Gráfico 3D)</div>
+                <div id="plot3d" style="width: 100%; height: 100%;"></div>
+            </div>
+        </div>
+
+        <!-- Tabla de Resultados -->
+        <div class="mt-10">
+            <h3 class="text-xl font-bold mb-4 border-b pb-2"><i class="fa-solid fa-microchip mr-2 text-slate-500"></i>4. Análisis de Algoritmos Computacionales (Precisión 10^-6)</h3>
+            <p class="text-sm text-slate-600 mb-4">Esta tabla muestra qué tan rápido la computadora pudo encontrar la respuesta usando diferentes métodos matemáticos iterativos.</p>
+            <div class="overflow-x-auto">
+                <table class="min-w-full text-left text-sm whitespace-nowrap">
+                    <thead class="uppercase tracking-wider border-b-2 border-slate-300 bg-slate-50 text-slate-600">
+                        <tr>
+                            <th scope="col" class="px-6 py-3">Método Numérico</th>
+                            <th scope="col" class="px-6 py-3 text-center">Intentos (Iteraciones)</th>
+                            <th scope="col" class="px-6 py-3 text-center">¿Pudo Resolverlo?</th>
+                            <th scope="col" class="px-6 py-3">Diagnóstico del Método</th>
+                        </tr>
+                    </thead>
+                    <tbody id="results-tbody" class="bg-white">
+                        <!-- Populated by JS -->
+                        <tr><td colspan="4" class="px-6 py-8 text-center text-slate-500 font-medium">Haz clic en "Procesar y Graficar Solución" para calcular los resultados.</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // --- Escenarios de Carga Rápida ---
+    const scenarios = {
+        ideal: {
+            // Bien condicionada, diagonal dominante. Fácil de resolver.
+            A: [[5, 1, 1], [1, 4, 1], [1, 1, 6]],
+            b: [150, 120, 200]
+        },
+        stress: {
+            // Requerimientos altos, interconectados, pero simétrica y definida positiva
+            A: [[20, 8, 5], [8, 15, 6], [5, 6, 10]],
+            b: [1500, 1200, 800]
+        },
+        ill: {
+            // Mal condicionada (casi singular). X1 y X2 hacen casi lo mismo (10 vs 9.9)
+            // Esto hace que los planos paralelos confundan a los algoritmos básicos.
+            A: [[10, 9.9, 1], [9.9, 10, 1], [1, 1, 5]],
+            b: [100, 99.5, 50]
+        }
+    };
+
+    function loadScenario(type) {
+        const data = scenarios[type];
+        for(let i=0; i<3; i++) {
+            for(let j=0; j<3; j++) {
+                document.getElementById(`a${i}${j}`).value = data.A[i][j];
+            }
+            document.getElementById(`b${i}`).value = data.b[i];
+        }
+        runSimulation();
+    }
+
+    // --- Lectura de Interfaz ---
+    function getMatrix() {
+        let A = [];
+        for(let i=0; i<3; i++) {
+            let row = [];
+            for(let j=0; j<3; j++) {
+                row.push(parseFloat(document.getElementById(`a${i}${j}`).value));
+            }
+            A.push(row);
+        }
+        return A;
+    }
+
+    function getVector() {
+        return [
+            parseFloat(document.getElementById('b0').value),
+            parseFloat(document.getElementById('b1').value),
+            parseFloat(document.getElementById('b2').value)
+        ];
+    }
+
+    function matVecMult(A, v) {
+        let res = new Array(A.length).fill(0);
+        for(let i=0; i<A.length; i++) {
+            for(let j=0; j<A[i].length; j++) {
+                res[i] += A[i][j] * v[j];
+            }
+        }
+        return res;
+    }
+
+    // --- ALGORITMOS MATEMÁTICOS ---
+    const MAX_ITER = 2000;
+    const TOL = 1e-6;
+
+    // 1. Método Directo: Factorización LU (Solución Teórica Perfecta)
+    function luSolve(A, b) {
+        let n = A.length;
+        let L = Array(n).fill(0).map(()=>Array(n).fill(0));
+        let U = Array(n).fill(0).map(()=>Array(n).fill(0));
+
+        for(let i=0; i<n; i++) {
+            for(let j=i; j<n; j++) {
+                let sum = 0;
+                for(let k=0; k<i; k++) sum += L[i][k] * U[k][j];
+                U[i][j] = A[i][j] - sum;
+            }
+            for(let j=i; j<n; j++) {
+                if (i === j) L[i][i] = 1;
+                else {
+                    let sum = 0;
+                    for(let k=0; k<i; k++) sum += L[j][k] * U[k][i];
+                    if (U[i][i] === 0) return null; // Error: Los datos no tienen solución posible
+                    L[j][i] = (A[j][i] - sum) / U[i][i];
+                }
+            }
+        }
+        let y = Array(n).fill(0);
+        for(let i=0; i<n; i++) {
+            let sum = 0;
+            for(let k=0; k<i; k++) sum += L[i][k] * y[k];
+            y[i] = b[i] - sum;
+        }
+        let x = Array(n).fill(0);
+        for(let i=n-1; i>=0; i--) {
+            let sum = 0;
+            for(let k=i+1; k<n; k++) sum += U[i][k] * x[k];
+            x[i] = (y[i] - sum) / U[i][i];
+        }
+        return x;
+    }
+
+    // 2. Método Iterativo: Jacobi
+    function jacobi(A, b) {
+        let n = A.length;
+        let x = new Array(n).fill(0);
+        let iter = 0;
+        let converged = false;
+
+        for(; iter < MAX_ITER; iter++) {
+            let x_new = new Array(n).fill(0);
+            for(let i=0; i<n; i++) {
+                let sum = 0;
+                for(let j=0; j<n; j++) {
+                    if(i !== j) sum += A[i][j] * x[j];
+                }
+                x_new[i] = (b[i] - sum) / A[i][i];
+            }
+            
+            let maxDiff = 0;
+            for(let i=0; i<n; i++) maxDiff = Math.max(maxDiff, Math.abs(x_new[i] - x[i]));
+            x = x_new;
+            
+            if(maxDiff < TOL || isNaN(maxDiff) || !isFinite(maxDiff)) {
+                if (maxDiff < TOL) converged = true;
+                break;
+            }
+        }
+        return { iter, converged };
+    }
+
+    // 3. Método Iterativo: Gauss-Seidel
+    function gaussSeidel(A, b) {
+        let n = A.length;
+        let x = new Array(n).fill(0);
+        let iter = 0;
+        let converged = false;
+
+        for(; iter < MAX_ITER; iter++) {
+            let maxDiff = 0;
+            for(let i=0; i<n; i++) {
+                let sum = 0;
+                for(let j=0; j<n; j++) {
+                    if(i !== j) sum += A[i][j] * x[j];
+                }
+                let x_new_i = (b[i] - sum) / A[i][i];
+                maxDiff = Math.max(maxDiff, Math.abs(x_new_i - x[i]));
+                x[i] = x_new_i;
+            }
+            
+            if(maxDiff < TOL || isNaN(maxDiff) || !isFinite(maxDiff)) {
+                if (maxDiff < TOL) converged = true;
+                break;
+            }
+        }
+        return { iter, converged };
+    }
+
+    // 4. Método Avanzado: SOR (Sobrerelajación Sucesiva)
+    function sor(A, b) {
+        let n = A.length;
+        let x = new Array(n).fill(0);
+        let iter = 0;
+        let converged = false;
+        let w = 1.25; // Factor de impulso
+
+        for(; iter < MAX_ITER; iter++) {
+            let maxDiff = 0;
+            for(let i=0; i<n; i++) {
+                let sum = 0;
+                for(let j=0; j<n; j++) {
+                    if(i !== j) sum += A[i][j] * x[j];
+                }
+                let gs_val = (b[i] - sum) / A[i][i];
+                let x_new_i = (1 - w)*x[i] + w * gs_val;
+                
+                maxDiff = Math.max(maxDiff, Math.abs(x_new_i - x[i]));
+                x[i] = x_new_i;
+            }
+            
+            if(maxDiff < TOL || isNaN(maxDiff) || !isFinite(maxDiff)) {
+                if (maxDiff < TOL) converged = true;
+                break;
+            }
+        }
+        return { iter, converged };
+    }
+
+    // 5. Método Excelente: Gradiente Conjugado Precondicionado 
+    // Basado en el artículo de Porfirio Suñagua S.
+    function pcg(A, b) {
+        let n = A.length;
+        let x = new Array(n).fill(0);
+        let r = b.slice(); 
+        
+        // Precondicionador simple: Inversa de la Diagonal
+        let diagM = [];
+        for(let i=0; i<n; i++) diagM.push(A[i][i] === 0 ? 1 : A[i][i]);
+        
+        let z = r.map((ri, i) => ri / diagM[i]);
+        let p = z.slice();
+        let rz = r.reduce((sum, ri, i) => sum + ri * z[i], 0);
+
+        let iter = 0;
+        let converged = false;
+
+        for(; iter < MAX_ITER; iter++) {
+            let r_norm = Math.sqrt(r.reduce((s, v) => s + v*v, 0));
+            if (r_norm < TOL || isNaN(r_norm) || !isFinite(r_norm)) {
+                if (r_norm < TOL) converged = true;
+                break;
+            }
+
+            let Ap = matVecMult(A, p);
+            let pAp = p.reduce((sum, pi, i) => sum + pi * Ap[i], 0);
+            
+            if(pAp === 0) break; // La matriz falló la condición matemática requerida
+            
+            let alpha = rz / pAp;
+
+            for(let i=0; i<n; i++) x[i] += alpha * p[i];
+            for(let i=0; i<n; i++) r[i] -= alpha * Ap[i];
+
+            let z_new = r.map((ri, i) => ri / diagM[i]); 
+            let rz_new = r.reduce((sum, ri, i) => sum + ri * z_new[i], 0);
+
+            let beta = rz_new / rz;
+            for(let i=0; i<n; i++) p[i] = z_new[i] + beta * p[i];
+
+            rz = rz_new;
+        }
+        return { iter, converged };
+    }
+
+    // --- Controlador de Interfaz ---
+    function runSimulation() {
+        const A = getMatrix();
+        const b = getVector();
+
+        // 1. Obtener solución exacta
+        const x_exact = luSolve(A, b);
+        
+        if (!x_exact || x_exact.some(isNaN)) {
+            alert("⚠️ Alerta: Los valores ingresados crean un sistema imposible de resolver (Singular o Paralelo puro). Por favor, cambia los números de la matriz.");
+            return;
+        }
+
+        // Mostrar Solución
+        document.getElementById('solution-box').classList.remove('hidden');
+        document.getElementById('sol-x1').innerText = x_exact[0].toFixed(2);
+        document.getElementById('sol-x2').innerText = x_exact[1].toFixed(2);
+        document.getElementById('sol-x3').innerText = x_exact[2].toFixed(2);
+
+        // 2. Correr las simulaciones iterativas para comparar eficiencia
+        const resJac = jacobi(A, b);
+        const resGS = gaussSeidel(A, b);
+        const resSOR = sor(A, b);
+        const resPCG = pcg(A, b);
+
+        // 3. Pintar Tabla de Resultados
+        const tbody = document.getElementById('results-tbody');
+        tbody.innerHTML = '';
+        
+        const results = [
+            { name: "Jacobi", data: resJac, note: "Método antiguo. Muy lento o fracasa si las variables se cruzan mucho (no diagonal dominante)." },
+            { name: "Gauss-Seidel", data: resGS, note: "Un poco más listo que Jacobi, usa memoria fresca. Suele tardar menos intentos." },
+            { name: "SOR (w=1.25)", data: resSOR, note: "Acelera a Gauss-Seidel 'empujando' el cálculo hacia adelante." },
+            { name: "Gradiente Conjugado Precondicionado", data: resPCG, note: "⭐ El más avanzado. Usa geometría para ir directo a la respuesta. Excelente para casos de 'Estrés'." },
+            { name: "Factorización LU", data: {iter: "Instantáneo", converged: true}, note: "Fórmula matemática exacta. La usamos como árbitro para ver si los demás lo hicieron bien." }
+        ];
+
+        results.forEach((r, idx) => {
+            const tr = document.createElement('tr');
+            tr.className = idx % 2 === 0 ? "bg-white border-b" : "bg-slate-50 border-b";
+            
+            let convStr = r.data.converged ? `<span class="text-green-600 font-bold"><i class="fa-solid fa-check"></i> Éxito</span>` : `<span class="text-red-600 font-bold"><i class="fa-solid fa-xmark"></i> Falló</span>`;
+            if (r.name === "Factorización LU") convStr = `<span class="text-blue-600 font-bold">-</span>`;
+            
+            let iterStr = r.data.iter >= MAX_ITER ? `Se rindió (> ${MAX_ITER})` : r.data.iter;
+
+            tr.innerHTML = `
+                <td class="px-6 py-4 font-bold text-slate-800">${r.name}</td>
+                <td class="px-6 py-4 text-center font-mono font-medium">${iterStr}</td>
+                <td class="px-6 py-4 text-center">${convStr}</td>
+                <td class="px-6 py-4 text-xs text-slate-600 leading-tight">${r.note}</td>
+            `;
+            tbody.appendChild(tr);
+        });
+
+        // 4. Graficar
+        plotPlanes(A, b, x_exact);
+    }
+
+    // --- Gráfica 3D (Plotly) ---
+    function plotPlanes(A, b, exact) {
+        let x_center = exact[0];
+        let y_center = exact[1];
+        
+        let range = Math.max(Math.abs(x_center)*0.5, 10); 
+        let points = 20;
+        let x_vals = [], y_vals = [];
+        
+        let stepX = (range*2) / points;
+        let stepY = (range*2) / points;
+
+        for(let i=0; i<=points; i++) {
+            x_vals.push((x_center - range) + i*stepX);
+            y_vals.push((y_center - range) + i*stepY);
+        }
+
+        // Calcula el eje Z para graficar el plano de cada meta
+        function getZ(planeIdx, xv, yv) {
+            let az = A[planeIdx][2];
+            if(Math.abs(az) < 1e-10) return null; 
+            return (b[planeIdx] - A[planeIdx][0]*xv - A[planeIdx][1]*yv) / az;
+        }
+
+        let z1 = [], z2 = [], z3 = [];
+        for(let j=0; j<y_vals.length; j++) {
+            let row1=[], row2=[], row3=[];
+            for(let i=0; i<x_vals.length; i++) {
+                row1.push(getZ(0, x_vals[i], y_vals[j]));
+                row2.push(getZ(1, x_vals[i], y_vals[j]));
+                row3.push(getZ(2, x_vals[i], y_vals[j]));
+            }
+            z1.push(row1); z2.push(row2); z3.push(row3);
+        }
+
+        let trace1 = { x: x_vals, y: y_vals, z: z1, type: 'surface', opacity: 0.6, showscale: false, colorscale: 'Blues', name: 'Meta: Calorías' };
+        let trace2 = { x: x_vals, y: y_vals, z: z2, type: 'surface', opacity: 0.6, showscale: false, colorscale: 'Greens', name: 'Meta: Músculo' };
+        let trace3 = { x: x_vals, y: y_vals, z: z3, type: 'surface', opacity: 0.6, showscale: false, colorscale: 'Reds', name: 'Meta: Estrés' };
+
+        let pointTrace = {
+            x: [exact[0]], y: [exact[1]], z: [exact[2]],
+            mode: 'markers', type: 'scatter3d',
+            marker: { color: '#0f172a', size: 8, symbol: 'diamond', line: { color: 'white', width: 2 } },
+            name: 'Punto Exacto (Solución)'
+        };
+
+        let layout = {
+            margin: { l: 0, r: 0, b: 0, t: 0 },
+            scene: {
+                xaxis: { title: 'Proteína (X1)' },
+                yaxis: { title: 'Físico (X2)' },
+                zaxis: { title: 'Juego (X3)' },
+                camera: { eye: {x: 1.5, y: 1.5, z: 1.2} }
+            },
+            showlegend: false,
+            hovermode: false
+        };
+
+        Plotly.newPlot('plot3d', [trace1, trace2, trace3, pointTrace], layout, {responsive: true});
+    }
+
+    // Auto-correr simulación ideal al cargar la página
+    window.onload = () => loadScenario('ideal');
+
+</script>
+
+</body>
+</html>
